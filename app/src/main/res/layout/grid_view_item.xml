@@ -1,0 +1,22 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="catImage"
+            type="tk.gabrielpaim.catimages.model.Image" />
+    </data>
+
+    <ImageView
+        android:id="@+id/imgur_image"
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        app:imageUrl="@{catImage.link}"
+        tools:src="@tools:sample/backgrounds/scenic" />
+</layout>
