@@ -7,16 +7,22 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import tk.gabrielpaim.catimages.model.ApiStatus
-import tk.gabrielpaim.catimages.model.Image
+import tk.gabrielpaim.catimages.domain.ApiStatus
+import tk.gabrielpaim.catimages.domain.Image
 import tk.gabrielpaim.catimages.ui.catImages.PhotoGridAdapter
 
+/**
+ * Binds a list of [Image] to a [RecyclerView]
+ */
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Image>?) {
     val adapter = recyclerView.adapter as PhotoGridAdapter
     adapter.submitList(data)
 }
 
+/**
+ * Loads an image from a url to a [ImageView]
+ */
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
@@ -32,6 +38,12 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
+/**
+ * Defines the visibility and image from [ApiStatus]
+ * When [LOADING] shows an loading animation
+ * When [ERROR] shows an broken image
+ * When [DONE] hides the [ImageView]
+ */
 @BindingAdapter("apiStatus")
 fun bindStatus(statusImageView: ImageView, status: ApiStatus?) {
     when (status) {

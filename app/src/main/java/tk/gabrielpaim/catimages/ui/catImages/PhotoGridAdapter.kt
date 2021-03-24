@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tk.gabrielpaim.catimages.databinding.GridViewItemBinding
-import tk.gabrielpaim.catimages.model.Image
+import tk.gabrielpaim.catimages.domain.Image
 
 class PhotoGridAdapter : ListAdapter<Image, PhotoGridAdapter.CatImageViewHolder>(DiffCallback) {
     companion object DiffCallback : DiffUtil.ItemCallback<Image>() {

@@ -12,6 +12,7 @@ buildscript {
         version_moshi = "1.9.3"
         version_retrofit = "2.9.0"
         version_recyclerview = "1.2.0-beta02"
+        version_room = "2.2.5"
     }
     repositories {
         google()

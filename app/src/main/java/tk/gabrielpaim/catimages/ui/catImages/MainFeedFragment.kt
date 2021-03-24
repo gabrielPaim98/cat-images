@@ -8,9 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import tk.gabrielpaim.catimages.databinding.FragmentMainFeedBinding
 
+/**
+ * Show a list of cat images on screen.
+ */
 class MainFeedFragment : Fragment() {
+
     private val viewModel: MainFeedViewModel by lazy {
-        ViewModelProvider(this).get(MainFeedViewModel::class.java)
+        val activity = requireNotNull(this.activity)
+        ViewModelProvider(this, MainFeedViewModel.Factory(activity.application)).get(MainFeedViewModel::class.java)
+
     }
 
     override fun onCreateView(

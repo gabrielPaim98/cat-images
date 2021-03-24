@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cat Images</string>
+    <string name="image_description">A cat image</string>
 </resources>

@@ -1,48 +1,51 @@
 package tk.gabrielpaim.catimages.ui.catImages
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import tk.gabrielpaim.catimages.model.ApiStatus
-import tk.gabrielpaim.catimages.model.Image
-import tk.gabrielpaim.catimages.service.ImgurApi
+import tk.gabrielpaim.catimages.database.getDatabase
+import tk.gabrielpaim.catimages.domain.ApiStatus
+import tk.gabrielpaim.catimages.repository.ImagesRepository
 
-class MainFeedViewModel : ViewModel() {
+class MainFeedViewModel(application: Application) : AndroidViewModel(application) {
+
+    /**
+     * The current screen status.
+     * Use [_status.value] to change the status.
+     * [status] exposes the current value
+     */
     private val _status = MutableLiveData<ApiStatus>()
 
     val status: LiveData<ApiStatus>
         get() = _status
 
-    private val _cats = MutableLiveData<List<Image>>()
+    private val database = getDatabase(application)
+    private val imagesRepository = ImagesRepository(database)
 
-    val cats: LiveData<List<Image>>
-        get() = _cats
+    /**
+     * Exposes a list of catImages
+     */
+    val catImages = imagesRepository.images
 
     init {
-        getCatImages()
-    }
-
-    private fun getCatImages() {
         viewModelScope.launch {
             try {
-                val catImages = ArrayList<Image>()
                 _status.value = ApiStatus.LOADING
-                val responseData = ImgurApi.service.searchFor().data
-                for (data in responseData) {
-                    data.images?.let {
-                        catImages.addAll(it)
-                    }
-                }
-                if (catImages.isNotEmpty()) {
-                    _cats.value = catImages
-                }
+                imagesRepository.refreshImages()
                 _status.value = ApiStatus.DONE
             } catch (t: Throwable) {
                 _status.value = ApiStatus.ERROR
-                _cats.value = ArrayList()
             }
+        }
+    }
+
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainFeedViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainFeedViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }

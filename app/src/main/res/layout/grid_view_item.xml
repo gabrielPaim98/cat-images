@@ -6,7 +6,7 @@
 
         <variable
             name="catImage"
-            type="tk.gabrielpaim.catimages.model.Image" />
+            type="tk.gabrielpaim.catimages.domain.Image" />
     </data>
 
     <ImageView
@@ -16,7 +16,8 @@
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:padding="2dp"
-        android:scaleType="fitXY"
-        app:imageUrl="@{catImage.link}"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/image_description"
+        app:imageUrl="@{catImage.imgUrl}"
         tools:src="@tools:sample/backgrounds/scenic" />
 </layout>
